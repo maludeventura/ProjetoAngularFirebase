@@ -10,7 +10,11 @@ const routes: Routes = [
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
+  },  {
+    path: 'contato',
+    loadChildren: () => import('./shared/contato/contato.module').then( m => m.ContatoPageModule)
   }
+
 ];
 
 @NgModule({
