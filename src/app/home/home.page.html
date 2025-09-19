@@ -1,27 +1,31 @@
-<ion-content [fullscreen]="true">
-
-    <ion-row class="ion-justify-content-center">
-        <ion-col size="6">
-            <ion-item>
-                <ion-input type="text" label="Nome Completo" [(ngModel)]="this.usuario.name"></ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-input type="text" label="E-mail" [(ngModel)]="this.usuario.email"></ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-input type="password" label="Senha" [(ngModel)]="this.usuario.password"></ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-input type="password" label="Confirmação de Senha" [(ngModel)]="this.usuario.password_confirmation"></ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-button (click)="this.cadastrarUsuario()">Registrar-Se</ion-button>
-            </ion-item>
-
-        </ion-col>
-    </ion-row>
-
-    {{this.usuario.name}}
-    
-    
-</ion-content>
+<ion-header>
+    <ion-toolbar>
+      <ion-title>Feed</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+    <!-- Formulário de postagem -->
+    <ion-item>
+      <ion-input
+        placeholder="Escreva uma postagem..."
+        [(ngModel)]="newPost">
+      </ion-input>
+      <ion-button (click)="addPost()">Postar</ion-button>
+    </ion-item>
+  
+    <!-- Listagem de posts -->
+    <ion-list>
+      <ion-item *ngFor="let post of posts">
+        <ion-avatar slot="start">
+          <img [src]="post.user.picture">
+        </ion-avatar>
+        <ion-label>
+          <h2>{{ post.user.name }}</h2>
+          <p>{{ post.description }}</p>
+          <small>{{ post.created_at | date:'short' }}</small>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+  
