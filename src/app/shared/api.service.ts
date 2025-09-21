@@ -33,12 +33,13 @@ export class ApiService {
    * @param data - dados dos formulário/json a serem inseridos no documento
    * @returns Observable<any> - retorna uma observable para subscrição com response ok 200 ou erro
    */
-	post(endpoint: string, data: any): Observable<any> {
-    const headers = { 'content-type': 'application/json'};
-    const serialized = JSON.stringify(data);
+ post(endpoint: string, data: any): Observable<any> {
+  const token = localStorage.getItem('token');
+  const headers: any = { 'Accept': 'application/json' }; 
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+  return this.http.post(`${this.URL}/${endpoint}`, data, { headers });
+}
 
-    return this.http.post(`${this.URL}/${endpoint}`, serialized, {'headers':headers});
-  }
 
   /**
    * Atualiza os dados de um documento da collection especificada
@@ -47,10 +48,11 @@ export class ApiService {
    * @returns Observable<any> - retorna uma observable para subscrição com response ok 200 ou erro
    */
   put(endpoint: string, data: any): Observable<any> {
-    const headers = { 'content-type': 'application/json'};
+    const token = localStorage.getItem('token');
+  const headers: any = { 'content-type': 'application/json', 'Accept': 'application/json' };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
     const serialized = JSON.stringify(data);
-
-    return this.http.put(`${this.URL}/${endpoint}`, serialized, {'headers':headers});
+    return this.http.put(`${this.URL}/${endpoint}`, serialized, { headers });
   }
 
   /**
@@ -59,7 +61,10 @@ export class ApiService {
    * @returns Observable<any> - retorna uma observable para subscrição com response ok 200 ou erro
    */
   delete(endpoint: string): Observable<any> {
-    return this.http.delete(`${this.URL}/${endpoint}`);
+    const token = localStorage.getItem('token');
+  const headers: any = { 'Accept': 'application/json' };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+    return this.http.delete(`${this.URL}/${endpoint}`, { headers });
   }
 
   /**
@@ -69,7 +74,10 @@ export class ApiService {
    * @returns Observable<any> - retorna uma observable para subscrição com response ok 200 ou erro
    */
   get(endpoint: string): Observable<any> {
-    return this.http.get(`${this.URL}/${endpoint}`);
+    const token = localStorage.getItem('token');
+  const headers: any = { 'Accept': 'application/json' };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+    return this.http.get(`${this.URL}/${endpoint}`, { headers });
   }
 
     

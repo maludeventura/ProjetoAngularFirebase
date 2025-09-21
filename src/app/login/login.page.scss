@@ -1,0 +1,86 @@
+.login-content {
+  --background: #0d0d0d;
+  color: #fff;
+  font-family: 'Roboto', sans-serif;
+}
+
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 16px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 370px;
+  background: #1a1a1a;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+}
+
+.login-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.login-logo {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 10px;
+  border-radius: 50%;
+  box-shadow: 0 2px 12px rgba(255, 200, 0, 0.4);
+}
+
+ion-card-title {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #ffcc00;
+  margin-bottom: 4px;
+}
+
+ion-card-subtitle {
+  color: #ff7b00;
+  margin-bottom: 12px;
+}
+
+.login-item {
+  --background: #2a2a2a;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+
+  ion-input {
+    color: #fff;
+    --placeholder-color: #bbb;
+  }
+}
+
+.btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+
+  ion-button {
+    font-weight: bold;
+    font-size: 1.1rem;
+    border-radius: 12px;
+  }
+  ion-input {
+    --color: yellow;
+  }
+
+  ion-button.buttonRegistrar {
+    --background: #ffcc00;
+    --color: #121212;
+  }
+
+  ion-button.buttonLogin {
+    --background: #ff7b00;
+    --color: #fff;
+  }
+}

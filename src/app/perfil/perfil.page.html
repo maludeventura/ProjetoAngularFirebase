@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Meu Perfil</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="perfil-container" *ngIf="user">
+    <div class="perfil-header">
+        <img [src]="user.picture || 'assets/icon/favicon.png'" alt="Avatar" class="perfil-avatar">
+        <h2 *ngIf="user?.name">{{ user.name }}</h2>
+        <p *ngIf="user?.email">{{ user.email }}</p>
+    </div>
+    <h3>Minhas Postagens</h3>
+
+    <ion-list *ngIf="posts && posts.length; else noPosts">
+      <ion-item *ngFor="let post of posts">
+        <ion-label>
+          <p>{{ post.description }}</p>
+          <small>{{ post.data || post.created_at | date:'short' }}</small>
+        </ion-label>
+        <img *ngIf="post.picture" [src]="post.picture" alt="Imagem do post" style="max-width: 80px; max-height: 80px; margin-left: 10px; border-radius: 8px;">
+      </ion-item>
+    </ion-list>
+
+    <ng-template #noPosts>
+      <p>Nenhuma postagem encontrada.</p>
+    </ng-template>
+
+  </div>
+</ion-content>

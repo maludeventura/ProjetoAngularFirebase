@@ -24,7 +24,6 @@ import { FormsModule } from '@angular/forms';
     HttpClientModule,
     FormsModule,
     
-    //importação de funções para que o firebase funcione no projeto
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)), 
     provideAuth(() => getAuth()), 
     provideFirestore(() => getFirestore()), 

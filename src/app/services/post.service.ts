@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class PostService {
 
-  private apiUrl = 'http://127.0.0.1:8000/api'; 
+  private apiUrl = 'http://127.0.0.1:8000/api/usuario'; 
 
   constructor(private http: HttpClient) {}
 
@@ -21,7 +21,7 @@ export class PostService {
 
   // Listar posts
   getPosts(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/posts`, { headers: this.getHeaders() });
+  return this.http.get(`${this.apiUrl}/posts`, { headers: this.getHeaders() });
   }
 
   // Criar post

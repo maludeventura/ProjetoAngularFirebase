@@ -15,14 +15,23 @@ import { PostService } from '../services/post.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-
   posts: any[] = [];
   newPost: string = '';
 
-  constructor(private postService: PostService) {}
+  constructor(private postService: PostService, private router: Router) {}
 
   ngOnInit() {
     this.loadPosts();
+  }
+
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('token');
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    this.router.navigate(['/home']);
+    setTimeout(() => this.loadPosts(), 300);
   }
 
   loadPosts() {
@@ -37,7 +46,7 @@ export class HomePage implements OnInit {
 
     this.postService.createPost(this.newPost).subscribe({
       next: (post) => {
-        this.posts.unshift(post); // adiciona no topo
+        this.posts.unshift(post); 
         this.newPost = '';
       },
       error: (err) => console.error(err)

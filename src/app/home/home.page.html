@@ -1,31 +1,53 @@
+
 <ion-header>
-    <ion-toolbar>
-      <ion-title>Feed</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  
-  <ion-content>
-    <!-- Formulário de postagem -->
-    <ion-item>
-      <ion-input
-        placeholder="Escreva uma postagem..."
-        [(ngModel)]="newPost">
-      </ion-input>
-      <ion-button (click)="addPost()">Postar</ion-button>
-    </ion-item>
-  
-    <!-- Listagem de posts -->
-    <ion-list>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <img class="logo" src="assets/icon/pato-icon.jpg" alt="Logo">
+    </ion-buttons>
+
+    <ion-title>Social Duck</ion-title>
+
+    <ion-buttons slot="end">
+      <ng-container *ngIf="!isLoggedIn()">
+        <ion-button class="buttonEntrar" routerLink="/login">Entrar</ion-button>
+        <ion-button class="buttonRegistrar" routerLink="/login">Registrar</ion-button>
+      </ng-container>
+      <ng-container *ngIf="isLoggedIn()">
+        <ion-button class="buttonPerfil" routerLink="/perfil">Perfil</ion-button>
+        <ion-button class="buttonSair" (click)="logout()">Sair</ion-button>
+      </ng-container>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="posts-container">
+    <h2>Posts Recentes</h2>
+
+    <ng-container *ngIf="isLoggedIn()">
+      <ion-item>
+        <ion-input placeholder="Escreva uma postagem..." [(ngModel)]="newPost"></ion-input>
+        <ion-button class="buttonPost" (click)="addPost()">Postar</ion-button>
+      </ion-item>
+    </ng-container>
+    
+    <ion-list *ngIf="posts && posts.length; else noPosts">
       <ion-item *ngFor="let post of posts">
         <ion-avatar slot="start">
-          <img [src]="post.user.picture">
+          <img [src]="post.user?.picture || 'assets/icon/favicon.png'" alt="Avatar">
         </ion-avatar>
         <ion-label>
-          <h2>{{ post.user.name }}</h2>
+          <h3>{{ post.user?.name }}</h3>
           <p>{{ post.description }}</p>
-          <small>{{ post.created_at | date:'short' }}</small>
+          <small>{{ post.data || post.created_at | date:'short' }}</small>
         </ion-label>
+        <img *ngIf="post.picture" [src]="post.picture" alt="Imagem do post" style="max-width: 80px; max-height: 80px; margin-left: 10px; border-radius: 8px;">
       </ion-item>
     </ion-list>
-  </ion-content>
+    <ng-template #noPosts>
+      <p>Nenhum post encontrado.</p>
+    </ng-template>
+  </div>
+</ion-content>
   
