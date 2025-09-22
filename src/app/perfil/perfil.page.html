@@ -10,19 +10,44 @@
 <ion-content [fullscreen]="true" class="ion-padding">
   <div class="perfil-container" *ngIf="user">
     <div class="perfil-header">
-        <img [src]="user.picture || 'assets/icon/favicon.png'" alt="Avatar" class="perfil-avatar">
-        <h2 *ngIf="user?.name">{{ user.name }}</h2>
-        <p *ngIf="user?.email">{{ user.email }}</p>
+      <img src="assets/icon/perfil-outline.svg" alt="Avatar" class="perfil-avatar" />
+      <ion-button expand="block" class="buttonEditarPerfil" (click)="modoEdicao = !modoEdicao">
+        {{ modoEdicao ? 'Cancelar Edição' : 'Editar Perfil' }}</ion-button>
+      <h2 *ngIf="user?.name">{{ user.name }}</h2>
+      <p *ngIf="user?.email">{{ user.email }}</p>
+      <ng-container *ngIf="modoEdicao">
+        <ion-item>
+          <ion-label position="stacked">Nome</ion-label>
+          <ion-input [(ngModel)]="user.name"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Email</ion-label>
+          <ion-input [(ngModel)]="user.email"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Nova Senha</ion-label>
+          <ion-input type="password" [(ngModel)]="novaSenha"></ion-input>
+        </ion-item>
+
+
+        <ion-button expand="block" color="success" (click)="salvarEdicao()">
+          Salvar Alterações
+        </ion-button>
+      </ng-container>
+
     </div>
     <h3>Minhas Postagens</h3>
 
     <ion-list *ngIf="posts && posts.length; else noPosts">
       <ion-item *ngFor="let post of posts">
         <ion-label>
-          <p>{{ post.description }}</p>
+          <p class="text">{{ post.description }}</p>
           <small>{{ post.data || post.created_at | date:'short' }}</small>
         </ion-label>
-        <img *ngIf="post.picture" [src]="post.picture" alt="Imagem do post" style="max-width: 80px; max-height: 80px; margin-left: 10px; border-radius: 8px;">
+        <img *ngIf="post.picture" [src]="post.picture" alt="Imagem do post"
+          style="max-width: 80px; max-height: 80px; margin-left: 10px; border-radius: 8px;">
       </ion-item>
     </ion-list>
 

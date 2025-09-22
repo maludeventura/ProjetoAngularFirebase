@@ -9,10 +9,8 @@ import { ApiService } from '../shared/api.service';
 })
 export class LoginPage {
   usuario: any = {
-    name: '',
     email: '',
     password: '',
-    password_confirmation: ''
   };
 
   constructor(

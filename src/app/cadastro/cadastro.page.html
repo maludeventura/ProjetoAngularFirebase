@@ -4,12 +4,17 @@
       <ion-card-header>
         <div class="login-header">
           <img src="assets/icon/chapeu.png" class="login-logo">
-          <ion-card-title>Bem-vindo de volta!</ion-card-title>
-          <ion-card-subtitle>Acesse sua conta!</ion-card-subtitle>
+          <ion-card-title>Seja Bem-Vindo ao Social Country</ion-card-title>
+          <ion-card-subtitle>Crie sua conta!</ion-card-subtitle>
         </div>
       </ion-card-header>
 
       <ion-card-content>
+        <ion-item lines="full" class="login-item">
+          <ion-label position="floating">Nome completo</ion-label>
+          <ion-input type="text" [(ngModel)]="usuario.name"></ion-input>
+        </ion-item>
+
         <ion-item lines="full" class="login-item">
           <ion-label position="floating">E-mail</ion-label>
           <ion-input type="email" [(ngModel)]="usuario.email"></ion-input>
@@ -20,10 +25,14 @@
           <ion-input type="password" [(ngModel)]="usuario.password"></ion-input>
         </ion-item>
 
-        <div class="btn-group">
-          <ion-button class="buttonLogin" expand="block" (click)="loginUsuario()">Login</ion-button>
-        </div>
+        <ion-item lines="full" class="login-item">
+          <ion-label position="floating">Confirmação de senha</ion-label>
+          <ion-input type="password" [(ngModel)]="usuario.password_confirmation"></ion-input>
+        </ion-item>
 
+        <div class="btn-group">
+          <ion-button class="buttonRegistrar" expand="block" (click)="cadastrarUsuario()">Cadastrar-se</ion-button>
+        </div>
       </ion-card-content>
     </ion-card>
   </div>

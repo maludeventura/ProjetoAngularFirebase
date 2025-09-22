@@ -1,13 +1,13 @@
 ion-content {
-  --background: #121212;
-  color: #fff;
+  --background: #ffffff;
+  color: #a3a3a3;
   font-family: 'Roboto', sans-serif;
 }
 
 .perfil-container {
   max-width: 500px;
   margin: 32px auto;
-  background: #1a1a1a;
+  background: #fff9f9;
   border-radius: 18px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.4);
   padding: 32px 18px 24px 18px;
@@ -25,25 +25,29 @@ ion-content {
   width: 90px;
   height: 90px;
   border-radius: 50%;
-  border: 2px solid #ffcc00;
+  // border: 2px solid #ffcc00;
   box-shadow: 0 2px 8px rgba(0,0,0,0.4);
   margin-bottom: 12px;
 }
 
 h2, .perfil-header h2 {
-  color: #ffcc00;
+  color: #000000;
   font-weight: 700;
   margin-bottom: 4px;
   word-break: break-word;
 }
 
 p {
-  color: #ccc;
+  color: #424242;
   margin-bottom: 0;
 }
 
+.text{
+  text-align: left;
+}
+
 h3 {
-  color: #ffcc00;
+  color: #63625f;
   margin: 18px 0 10px 0;
   font-size: 1.1rem;
   font-weight: 600;
@@ -53,20 +57,27 @@ h3 {
 }
 
 ion-item {
-  --background: #2a2a2a;
+  --background: #e9e9e9;
   border-radius: 12px;
   margin-bottom: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease;
+
+}
+
+
+ion-item:hover {
+  transform: scale(1.01);
 }
 
 ion-label p {
-  color: #fff; 
+  color: #000000; 
   font-size: 1.05rem;
   margin-bottom: 2px;
 }
 
 ion-label small {
-  color: #888;
+  color: #000000;
 }
 
 ion-button {
@@ -75,15 +86,21 @@ ion-button {
   --border-radius: 12px;
 }
 
-ion-button.buttonEditarPerfil {
-  --background: #ffcc00;
-  --color: #121212;
-}
-
-ion-button.buttonSair {
-  --background: #ff7300;
+ion-button[color="success"] {
+  --background: #28a745;
   --color: #fff;
 }
+
+/* texto digitado dentro do ion-input */
+ion-input, ion-input input {
+  color: #000 !important;
+}
+
+/* texto dos labels */
+ion-label {
+  color: #000 !important;
+}
+
 
 img[alt="Imagem do post"] {
   max-width: 80px;
@@ -95,21 +112,26 @@ img[alt="Imagem do post"] {
 
 p {
   text-align: center;
-  color: #aaa;
+  color: #535353;
   font-style: italic;
 }
 
 ion-toolbar {
-  --background: #ffcc00;
-  color: #121212;
+  --background: #0a1a40;
+  color: #fff;
 }
 
 ion-title {
-  color: #121212;
+  color: #ffffff;
 }
 
 ion-back-button {
-  --color: #121212;
+  --color: #ffffff;
+}
+ion-list {
+  background: transparent !important;
+  --background: transparent !important;
+  box-shadow: none;
 }
 
 @media (max-width: 700px) {

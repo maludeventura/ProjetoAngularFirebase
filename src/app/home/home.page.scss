@@ -1,76 +1,104 @@
 ion-content {
-  --background: #0d0d0d; 
-  color: #fff;
+  --background: #ffffff;
+  color: #000;
   font-family: 'Roboto', sans-serif;
 }
 
 ion-toolbar {
   --min-height: 80px;
-  --background: #ffcc00;
-  color: #121212;
+  --background: #0a1a40;
+  color: #fff;
 }
 
 :host {
   ion-toolbar {
-    --ion-color-base: #ffcc00 !important;
+    --ion-color-base: #0a1a40 !important;
   }
 }
 
-.title-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+
+ion-list.posts-list {
+  background-color: #f9f9f9 !important;
+  --background: #f9f9f9 !important;
+  color: #000 !important;
+  box-shadow: none;
 }
 
+.posts-list ion-item.mensagem {
+  background: #dadada !important;
+  --background: #dadada !important;
+  color: #111 !important;
+  border-radius: 14px;
+  box-shadow: none !important;
+  border-bottom: none !important;
+  border-width: 0 !important;
+  border: none !important;
+  --border-width: 0 !important;
+  --border-style: none !important;
+  --border-color: transparent !important;
+  --inner-border-width: 0 !important;
+  --inner-border-style: none !important;
+  --inner-border-color: transparent !important;
+}
+
+.posts-list ion-item.mensagem ion-avatar,
+.posts-list ion-item.mensagem ion-label {
+  background: transparent;
+}
+
+
+
 img.logo {
-  height: 62px;
+  height: 58px;
   width: auto;
   margin-left: 8px;
-  border-radius: 18px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 ion-title {
   text-align: center;
   font-weight: bold;
   font-size: 1.4rem;
-  color: #121212;
+  color: #fff;
 }
 
 .posts-container {
   max-width: 600px;
   margin: 32px auto 0 auto;
-  background: #1a1a1a;
+  background: #f9f9f9;
   border-radius: 18px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   padding: 32px 18px 24px 18px;
 }
 
 h2 {
   text-align: center;
-  color: #ffcc00;
+  color: #0a1a40;
   margin-bottom: 24px;
   font-weight: 700;
-  letter-spacing: 1px;
-  border-bottom: 1px solid #444;
+  border-bottom: 2px solid #ccc;
   padding-bottom: 12px;
 }
 
 ion-item {
-  --background: #2a2a2a;
+  --background: #fff;
   border-radius: 12px;
   margin-bottom: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  color: #000;
+}
+
+.mensgagem {
+  border: #000;
 }
 
 ion-input {
   --padding-start: 12px;
   --padding-end: 12px;
   font-size: 1.1rem;
-  color: #fff;
-  --placeholder-color: #aaa;
+  color: #000;
+  --placeholder-color: #666;
 }
 
 ion-button {
@@ -83,65 +111,66 @@ ion-buttons ion-button {
   margin-left: 12px;
 }
 
+/* Botões */
 ion-button.buttonRegistrar {
-  --background: #ff7300;
+  --background: #004080;
   --color: #fff;
-  --border-radius: 8px;
-  font-weight: bold;
 }
 
 ion-button.buttonEntrar {
-  --background: #dac367;
-  --color: #121212;
-  --border-radius: 6px;
-  font-weight: bold;
+  --background: #0066cc;
+  --color: #fff;
 }
 
 ion-button.buttonSair {
-  --background: #ff7300;
-  --color: #fff;
-  --border-radius: 6px;
-  font-weight: bold;
+  --background: #ffffff;
+  --color: #000000;
 }
 
 ion-button.buttonPerfil {
-  --background: #dac367;
-  --color: #121212;
-  --border-radius: 6px;
-  font-weight: bold;
+  --padding-start: 0;
+  --padding-end: 0;
+  --background: transparent;
+  --box-shadow: none;
+  --color: transparent;
+  min-width: auto;
+  height: auto;
 }
+
+.buttonPerfil img.icon-perfil {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
 
 ion-button.buttonPost {
-  --background: #ff7b00;
+  --background: #0a1a40;
   --color: #fff;
-  --border-radius: 6px;
-  font-weight: bold;
-}
-
-ion-list {
-  margin-top: 18px;
 }
 
 ion-avatar img {
   border-radius: 50%;
-  border: 2px solid #ffcc00;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
 }
+
+
 
 ion-label h3 {
   margin: 0 0 4px 0;
-  color: #fff;
+  color: #222;
   font-weight: 600;
 }
 
 ion-label p {
   margin: 0 0 4px 0;
-  color: #ccc;
+  color: #333;
   font-size: 1.05rem;
 }
 
 ion-label small {
-  color: #888;
+  color: #555;
 }
 
 img[alt="Imagem do post"] {
@@ -149,12 +178,12 @@ img[alt="Imagem do post"] {
   max-height: 80px;
   margin-left: 10px;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 p {
-  text-align: center;
-  color: #aaa;
+  text-align: left;
+  color: #666;
   font-style: italic;
 }
 
