@@ -40,6 +40,39 @@ h2, .perfil-header h2 {
   word-break: break-word;
 }
 
+
+.ad_arquivo::-webkit-file-upload-button {
+  visibility: hidden; 
+}
+
+.ad_arquivo::before {
+  content: 'Adicionar Foto'; 
+  display: inline-block;
+  background: #0a1a40;
+  color: white;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  transition: background 0.3s, transform 0.2s;
+}
+
+
+.ad_arquivo::before:hover {
+  background: #091534;
+  transform: translateY(-2px);
+}
+
+.perfil-header .ad_arquivo {
+  display: block;
+  margin: 12px auto;
+  width: auto;
+  align-items: center;
+}
+
+
 p {
   color: #424242;
   margin-bottom: 0;

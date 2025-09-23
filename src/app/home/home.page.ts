@@ -10,7 +10,7 @@ import { PostService } from '../services/post.service';
 export class HomePage implements OnInit {
   posts: any[] = [];
   newPost: string = '';
-  currentUserId: string | null = null;
+  currentUserId: number | null = null;
 
   // controle das respostas
   replyInputs: { [key: number]: boolean } = {}; 
@@ -24,7 +24,9 @@ export class HomePage implements OnInit {
   }
 
   loadCurrentUserId() {
-    this.currentUserId = localStorage.getItem('userId');
+    const storedId = localStorage.getItem('userId');
+    this.currentUserId = storedId ? Number(storedId) : null;
+    console.log('currentUserId:', this.currentUserId);  // Debug no console
   }
 
   isLoggedIn(): boolean {
@@ -33,6 +35,7 @@ export class HomePage implements OnInit {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('userId');  // Também remover userId no logout
     this.router.navigate(['/home']);
     setTimeout(() => this.loadPosts(), 300);
   }
@@ -76,5 +79,17 @@ export class HomePage implements OnInit {
 
     this.replyTexts[post.id] = '';
     this.replyInputs[post.id] = false;
+  }
+
+  deletePost(postId: number) {
+    if (confirm('Tem certeza que deseja excluir este post?')) {
+      this.postService.deletePost(postId).subscribe({
+        next: () => {
+          // Remove o post da lista local
+          this.posts = this.posts.filter(post => post.id !== postId);
+        },
+        error: (err) => console.error('Erro ao excluir o post', err)
+      });
+    }
   }
 }

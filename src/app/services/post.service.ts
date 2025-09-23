@@ -21,18 +21,31 @@ export class PostService {
 
   // Listar posts
   getPosts(): Observable<any> {
-  return this.http.get(`${this.apiUrl}/posts`, { headers: this.getHeaders() });
+    return this.http.get(`${this.apiUrl}/posts`, { headers: this.getHeaders() });
   }
 
-  // Criar post
+  // Criar post (com texto e opcionalmente uma imagem em string/base64)
   createPost(description: string, picture: string = ''): Observable<any> {
     return this.http.post(`${this.apiUrl}/posts`,
       { description, picture },
       { headers: this.getHeaders() }
     );
   }
-  deletePost(postId: number) {
-  return this.http.delete(`sua-api/posts/${postId}`);
-}
 
+  // Deletar post
+  deletePost(postId: number) {
+    return this.http.delete(`${this.apiUrl.replace('/usuario','')}/posts/${postId}`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  // 👉 Novo: Upload de foto de perfil
+  uploadFotoPerfil(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('foto', file);
+
+    return this.http.post(`${this.apiUrl}/upload-foto`, formData, {
+      headers: this.getHeaders()
+    });
+  }
 }

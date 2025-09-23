@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../shared/api.service';
 import { Router } from '@angular/router';
+import { PostService } from '../services/post.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-perfil',
@@ -13,12 +15,17 @@ export class PerfilPage implements OnInit {
   modoEdicao: boolean = false;
   novaSenha: string = '';
 
-  constructor(private api: ApiService, private router: Router) {}
+  constructor(
+    private api: ApiService,
+    private router: Router,
+    private postService: PostService
+  ) {}
 
   ngOnInit() {
     this.loadPerfil();
   }
 
+  // Carrega os dados do usuário
   loadPerfil() {
     this.api.post('usuario/perfil', {}).subscribe({
       next: (resp: any) => {
@@ -37,6 +44,7 @@ export class PerfilPage implements OnInit {
     });
   }
 
+  // Carrega os posts do usuário
   loadPosts() {
     this.api.get('usuario/posts').subscribe({
       next: (data: any[]) => {
@@ -48,28 +56,66 @@ export class PerfilPage implements OnInit {
     });
   }
 
-salvarEdicao() {
-  const dadosAtualizados: any = {
-    name: this.user.name,
-    email: this.user.email
-  };
+  // Salvar alterações do perfil
+  salvarEdicao() {
+    const dadosAtualizados: any = {
+      name: this.user.name,
+      email: this.user.email
+    };
 
-  if (this.novaSenha) {
-    dadosAtualizados.password = this.novaSenha;
-    dadosAtualizados.password_confirmation = this.novaSenha; // aqui
+    if (this.novaSenha) {
+      dadosAtualizados.password = this.novaSenha;
+      dadosAtualizados.password_confirmation = this.novaSenha;
+    }
+
+    this.api.post('usuario/editar', dadosAtualizados).subscribe({
+      next: () => {
+        this.modoEdicao = false;
+        this.novaSenha = '';
+        this.loadPerfil();
+        alert('Perfil atualizado com sucesso!');
+      },
+      error: (err) => {
+        console.error('Erro ao atualizar perfil:', err);
+        alert('Erro ao atualizar perfil. Tente novamente.');
+      }
+    });
   }
 
-  this.api.post('usuario/editar', dadosAtualizados).subscribe({
-    next: () => {
-      this.modoEdicao = false;
-      this.novaSenha = '';
-      this.loadPerfil();
-      alert('Perfil atualizado com sucesso!');
-    },
-    error: (err) => {
-      console.error('Erro ao atualizar perfil:', err);
-      alert('Erro ao atualizar perfil. Tente novamente.');
+  // Upload da foto de perfil
+
+  uploadFotoPerfil(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.user.picture = URL.createObjectURL(file);
+
+      this.postService.uploadFotoPerfil(file).subscribe({
+        next: (res: any) => {
+          console.log('Foto enviada com sucesso', res);
+          this.user.picture = res.picture_url; 
+        },
+        error: (err: any) => {
+          console.error('Erro ao enviar foto', err);
+        }
+      });
     }
-  });
-}
+  }
+  
+
+
+  // Deletar post
+  deletarPost(postId: number) {
+    if (!confirm('Tem certeza que deseja excluir este post?')) return;
+
+    this.api.delete(`posts/${postId}`).subscribe({
+      next: () => {
+        this.posts = this.posts.filter(p => p.id !== postId);
+        alert('Post excluído com sucesso!');
+      },
+      error: (err) => {
+        console.error('Erro ao excluir post:', err);
+        alert('Erro ao excluir post. Tente novamente.');
+      }
+    });
+  }
 }

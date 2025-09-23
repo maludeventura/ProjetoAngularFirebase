@@ -10,50 +10,63 @@
 <ion-content [fullscreen]="true" class="ion-padding">
   <div class="perfil-container" *ngIf="user">
     <div class="perfil-header">
-      <img src="assets/icon/perfil-outline.svg" alt="Avatar" class="perfil-avatar" />
+      <img [src]="user?.picture || 'assets/icon/perfil-outline.svg'" 
+      alt="Avatar" 
+      class="perfil-avatar" />
+ 
+      <input type="file" class="ad_arquivo" (change)="uploadFotoPerfil($event)" accept="image/*" />
+
       <ion-button expand="block" class="buttonEditarPerfil" (click)="modoEdicao = !modoEdicao">
-        {{ modoEdicao ? 'Cancelar Edição' : 'Editar Perfil' }}</ion-button>
-      <h2 *ngIf="user?.name">{{ user.name }}</h2>
-      <p *ngIf="user?.email">{{ user.email }}</p>
-      <ng-container *ngIf="modoEdicao">
-        <ion-item>
-          <ion-label position="stacked">Nome</ion-label>
-          <ion-input [(ngModel)]="user.name"></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-label position="stacked">Email</ion-label>
-          <ion-input [(ngModel)]="user.email"></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-label position="stacked">Nova Senha</ion-label>
-          <ion-input type="password" [(ngModel)]="novaSenha"></ion-input>
-        </ion-item>
-
-
-        <ion-button expand="block" color="success" (click)="salvarEdicao()">
-          Salvar Alterações
-        </ion-button>
-      </ng-container>
-
+        {{ modoEdicao ? 'Cancelar Edição' : 'Editar Perfil' }}
+      </ion-button>
     </div>
+
+    <h2 *ngIf="user?.name">{{ user.name }}</h2>
+    <p *ngIf="user?.email">{{ user.email }}</p>
+
+    <ng-container *ngIf="modoEdicao">
+      <ion-item>
+        <ion-label position="stacked">Nome</ion-label>
+        <ion-input [(ngModel)]="user.name"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input [(ngModel)]="user.email"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Nova Senha</ion-label>
+        <ion-input type="password" [(ngModel)]="novaSenha"></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" color="success" (click)="salvarEdicao()">
+        Salvar Alterações
+      </ion-button>
+    </ng-container>
+
     <h3>Minhas Postagens</h3>
 
     <ion-list *ngIf="posts && posts.length; else noPosts">
       <ion-item *ngFor="let post of posts">
         <ion-label>
           <p class="text">{{ post.description }}</p>
-          <small>{{ post.data || post.created_at | date:'short' }}</small>
+          <small>{{post.created_at | date:'short' }}</small>
         </ion-label>
+
+        <!-- Imagem do post, se houver -->
         <img *ngIf="post.picture" [src]="post.picture" alt="Imagem do post"
           style="max-width: 80px; max-height: 80px; margin-left: 10px; border-radius: 8px;">
+
+        <!-- Botão de deletar post -->
+        <ion-button fill="clear" color="danger" (click)="deletarPost(post.id)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
       </ion-item>
     </ion-list>
 
     <ng-template #noPosts>
       <p>Nenhuma postagem encontrada.</p>
     </ng-template>
-
   </div>
 </ion-content>

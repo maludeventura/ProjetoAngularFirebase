@@ -55,6 +55,16 @@
         (click)="toggleReply(post.id)">
         Responder
       </ion-button>
+
+      <ion-button 
+  *ngIf="post.user?.id === currentUserId" 
+  fill="clear" 
+  size="small" 
+  slot="end" 
+  (click)="deletePost(post.id)">
+  <ion-icon name="trash"></ion-icon>
+</ion-button>
+
     </ion-item>
 
     <div *ngIf="replyInputs[post.id]" class="input-reply">
