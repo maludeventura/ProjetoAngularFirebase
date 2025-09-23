@@ -111,7 +111,6 @@ ion-buttons ion-button {
   margin-left: 12px;
 }
 
-/* Botões */
 ion-button.buttonRegistrar {
   --background: #004080;
   --color: #fff;
@@ -155,8 +154,6 @@ ion-avatar img {
   border-radius: 50%;
 }
 
-
-
 ion-label h3 {
   margin: 0 0 4px 0;
   color: #222;
@@ -186,6 +183,24 @@ p {
   color: #666;
   font-style: italic;
 }
+
+ion-list.replies-list{
+  background-color: #f9f9f9 !important;
+  --background: #f9f9f9 !important;
+  color: #000 !important;
+  box-shadow: none;
+}
+
+.responder-btn {
+  font-size: 12px;
+  --padding-start: 6px;
+  --padding-end: 6px;
+  --padding-top: 2px;
+  --padding-bottom: 2px;
+  margin-left: auto; 
+  color: var(--ion-color-primary);
+}
+
 
 @media (max-width: 700px) {
   .posts-container {

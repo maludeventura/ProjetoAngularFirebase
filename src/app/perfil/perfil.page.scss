@@ -13,6 +13,9 @@ ion-content {
   padding: 32px 18px 24px 18px;
   text-align: center;
 }
+.text{
+  text-align: left;
+}
 
 .perfil-header {
   display: flex;
@@ -40,10 +43,6 @@ h2, .perfil-header h2 {
 p {
   color: #424242;
   margin-bottom: 0;
-}
-
-.text{
-  text-align: left;
 }
 
 h3 {

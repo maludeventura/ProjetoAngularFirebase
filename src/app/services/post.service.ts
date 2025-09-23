@@ -31,4 +31,8 @@ export class PostService {
       { headers: this.getHeaders() }
     );
   }
+  deletePost(postId: number) {
+  return this.http.delete(`sua-api/posts/${postId}`);
+}
+
 }
