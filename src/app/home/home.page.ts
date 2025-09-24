@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PostService } from '../services/post.service';
 import { ApiService } from '../shared/api.service';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -12,21 +13,25 @@ export class HomePage implements OnInit {
   posts: any[] = [];
   newPost: string = '';
   currentUserId: number | null = null;
-  user: any = null;   // 👈 guarda os dados do usuário logado
+  user: any = null; 
 
-  // controle das respostas
   replyInputs: { [key: number]: boolean } = {};
   replyTexts: { [key: number]: string } = {};
+
+  postImageBase64: string = '';
 
   constructor(
     private postService: PostService,
     private router: Router,
-    private api: ApiService
+    private api: ApiService,
+    private toastController: ToastController
   ) { }
 
-
-  // Upload de foto para o post
-  postImageBase64: string = '';
+  ngOnInit() {
+    this.loadCurrentUserId();
+    this.loadUser();
+    this.loadPosts();
+  }
 
   triggerFileInput() {
     const fileInput = document.getElementById('fileInput-post') as HTMLInputElement;
@@ -45,12 +50,6 @@ export class HomePage implements OnInit {
       this.postImageBase64 = reader.result as string;
     };
     reader.readAsDataURL(file);
-  }
-
-  ngOnInit() {
-    this.loadCurrentUserId();
-    this.loadUser();
-    this.loadPosts();
   }
 
   loadCurrentUserId() {
@@ -73,7 +72,7 @@ export class HomePage implements OnInit {
 
   formatarUrl(url: string | undefined | null): string {
     if (!url || url.trim() === '' || url.toLowerCase() === 'null') {
-      return 'assets/icon/meu-perfil.png'; // fallback padrão
+      return 'assets/icon/meu-perfil.png';
     }
     if (url.startsWith('http')) {
       return url;
@@ -122,7 +121,6 @@ export class HomePage implements OnInit {
     const replyText = this.replyTexts[post.id];
     if (!replyText?.trim()) return;
 
-
     if (!post.replies) {
       post.replies = [];
     }
@@ -140,14 +138,45 @@ export class HomePage implements OnInit {
     this.replyInputs[post.id] = false;
   }
 
-  deletePost(postId: number) {
-    if (confirm('Tem certeza que deseja excluir este post?')) {
-      this.postService.deletePost(postId).subscribe({
-        next: () => {
-          this.posts = this.posts.filter(post => post.id !== postId);
+  async deletePost(postId: number) {
+    const toast = await this.toastController.create({
+      message: 'Deseja realmente excluir este post?',
+      position: 'bottom',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            // Cancelou, não faz nada
+          }
         },
-        error: (err) => console.error('Erro ao excluir o post', err)
-      });
-    }
+        {
+          text: 'Excluir',
+          handler: () => {
+            this.postService.deletePost(postId).subscribe({
+              next: () => {
+                this.posts = this.posts.filter(post => post.id !== postId);
+                this.presentToast('Post excluído com sucesso.');
+              },
+              error: (err) => {
+                console.error('Erro ao excluir o post', err);
+                this.presentToast('Erro ao excluir o post.');
+              }
+            });
+          }
+        }
+      ]
+    });
+
+    await toast.present();
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      position: 'bottom'
+    });
+    toast.present();
   }
 }

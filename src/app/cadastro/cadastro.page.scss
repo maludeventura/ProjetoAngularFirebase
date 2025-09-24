@@ -3,7 +3,7 @@
 }
 
 ion-toolbar {
-  --background: #0a1a40;
+  --background: #000;
   color: #fff;
 }
 
@@ -13,6 +13,22 @@ ion-toolbar {
   align-items: center;
   height: 100%;
 }
+
+::ng-deep .custom-alert .alert-wrapper {
+  border-radius: 16px;
+  padding: 20px;
+  background: #fff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+::ng-deep .custom-success-btn {
+  color: white;
+  background-color: #10dc60;
+  border-radius: 8px;
+  padding: 10px;
+  font-weight: bold;
+}
+
 
 .login-card {
   width: 100%;

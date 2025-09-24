@@ -16,7 +16,7 @@ ion-content {
 
 ion-toolbar {
   --min-height: 80px;
-  --background: #0a1a40;
+  --background: #000000;
   color: #fff;
 }
 
@@ -66,7 +66,6 @@ ion-list.posts-list {
 }
 
 
-
 img.logo {
   height: 58px;
   width: auto;
@@ -76,7 +75,7 @@ img.logo {
 }
 
 ion-title {
-  text-align: center;
+  text-align: left;
   font-weight: bold;
   font-size: 1.4rem;
   color: #fff;
@@ -131,18 +130,22 @@ ion-buttons ion-button {
 }
 
 ion-button.buttonRegistrar {
-  --background: #004080;
-  --color: #fff;
+  --background: #ffffff;
+  --color: #000000;
+  --border-radius: 12px;
 }
 
 ion-button.buttonEntrar {
-  --background: #0066cc;
+  --background: #0a1a40;
   --color: #fff;
+  --border-radius: 12px;
 }
 
 ion-button.buttonSair {
   --background: #ffffff;
   --color: #000000;
+  --border-radius: 12px;
+
 }
 
 ion-button.buttonPerfil {

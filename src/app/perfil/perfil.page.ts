@@ -3,6 +3,7 @@ import { ApiService } from '../shared/api.service';
 import { Router } from '@angular/router';
 import { PostService } from '../services/post.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-perfil',
@@ -18,14 +19,14 @@ export class PerfilPage implements OnInit {
   constructor(
     private api: ApiService,
     private router: Router,
-    private postService: PostService
+    private postService: PostService,
+    private toastController: ToastController
   ) {}
 
   ngOnInit() {
     this.loadPerfil();
   }
 
-  // Carrega os dados do usuário
   loadPerfil() {
     this.api.post('usuario/perfil', {}).subscribe({
       next: (resp: any) => {
@@ -41,11 +42,9 @@ export class PerfilPage implements OnInit {
         console.error('Erro ao carregar perfil:', err);
         this.router.navigate(['/login']);
       }
-      
     });
   }
 
-  // Carrega os posts do usuário
   loadPosts() {
     this.api.get('usuario/posts').subscribe({
       next: (data: any[]) => {
@@ -57,7 +56,16 @@ export class PerfilPage implements OnInit {
     });
   }
 
-  // Salvar alterações do perfil
+  async presentToast(message: string, color: string = 'primary') {
+    const toast = await this.toastController.create({
+      message,
+      duration: 6000,
+      color,
+      position: 'bottom'
+    });
+    toast.present();
+  }
+
   salvarEdicao() {
     const dadosAtualizados: any = {
       name: this.user.name,
@@ -74,76 +82,70 @@ export class PerfilPage implements OnInit {
         this.modoEdicao = false;
         this.novaSenha = '';
         this.loadPerfil();
-        alert('Perfil atualizado com sucesso!');
+        this.presentToast('Perfil atualizado com sucesso!', 'success');
       },
       error: (err) => {
         console.error('Erro ao atualizar perfil:', err);
-        alert('Erro ao atualizar perfil. Tente novamente.');
+        this.presentToast('Erro ao atualizar perfil. Tente novamente.', 'danger');
       }
     });
   }
 
-  // Upload da foto de perfil
-// Upload da foto de perfil
-uploadFotoPerfil(event: any) {
-  const file = event.target.files[0];
-  if (file) {
-    this.postService.uploadFotoPerfil(file).subscribe({
-      next: (res: any) => {
-        console.log('Foto enviada com sucesso', res);
-        this.user.picture = res.picture_url;
+  uploadFotoPerfil(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.postService.uploadFotoPerfil(file).subscribe({
+        next: (res: any) => {
+          console.log('Foto enviada com sucesso', res);
+          this.user.picture = res.picture_url;
 
-        // 👇 Atualiza o perfil no backend com a nova foto
-        this.api.post('usuario/editar', {
-          picture: res.picture_url
-        }).subscribe({
-          next: () => {
-            console.log('Foto de perfil salva no banco.');
-          },
-          error: (err: HttpErrorResponse) => {
-            console.error('Erro ao salvar foto no banco', err);
-          }
-        });
-      },
-      error: (err: HttpErrorResponse) => {
-        console.error('Erro ao enviar foto', err);
-        alert('Erro ao enviar a foto: ' + (err.error?.message || 'Verifique o formato e tamanho.'));
-      }
-    });
+          this.api.post('usuario/editar', {
+            picture: res.picture_url
+          }).subscribe({
+            next: () => {
+              console.log('Foto de perfil salva no banco.');
+            },
+            error: (err: HttpErrorResponse) => {
+              console.error('Erro ao salvar foto no banco', err);
+            }
+          });
+        },
+        error: (err: HttpErrorResponse) => {
+          console.error('Erro ao enviar foto', err);
+          this.presentToast('Erro ao enviar a foto: ' + (err.error?.message || 'Verifique o formato e tamanho.'), 'danger');
+        }
+      });
+    }
   }
-}
 
-  // Deletar post
   deletarPost(postId: number) {
     if (!confirm('Tem certeza que deseja excluir este post?')) return;
 
     this.api.delete(`posts/${postId}`).subscribe({
       next: () => {
         this.posts = this.posts.filter(p => p.id !== postId);
-        alert('Post excluído com sucesso!');
+        this.presentToast('Post excluído com sucesso!', 'success');
       },
       error: (err) => {
         console.error('Erro ao excluir post:', err);
-        alert('Erro ao excluir post. Tente novamente.');
+        this.presentToast('Erro ao excluir post. Tente novamente.', 'danger');
       }
     });
   }
 
-  // Formata a URL da imagem, ou retorna imagem padrão
-formatarUrl(url: string | undefined | null): string {
-  if (!url || url.trim() === '' || url === 'null') {
-    return 'assets/icon/perfil.png'; // 👈 imagem padrão
+  formatarUrl(url: string | undefined | null): string {
+    if (!url || url.trim() === '' || url === 'null') {
+      return 'assets/icon/perfil.png'; 
+    }
+
+    if (url.startsWith('http')) {
+      return url;
+    }
+
+    return `http://localhost:8000${url}`;
   }
 
-  if (url.startsWith('http')) {
-    return url;
+  onImageError(event: any) {
+    event.target.src = 'assets/icon/perfil.png';
   }
-
-  return `http://localhost:8000${url}`;
-}
-
-onImageError(event: any) {
-  event.target.src = 'assets/icon/perfil.png';
-}
-
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { ApiService } from '../shared/api.service';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-cadastro',
@@ -19,25 +20,30 @@ export class CadastroPage {
   constructor(
     public apiService: ApiService,
     private router: Router,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private toastController: ToastController
   ) {}
+  
 
   cadastrarUsuario() {
     this.apiService.post('usuario/registrar-se', this.usuario).subscribe({
       next: async (resp) => {
         console.log(resp);
 
-        const alert = await this.alertCtrl.create({
-          header: 'Sucesso 🎉',
-          message: 'Cadastrado com sucesso!',
-          buttons: ['OK']
+        const toast = await this.toastController.create({
+          message: '🎉 Cadastro realizado com sucesso!',
+          duration: 5000, 
+          position: 'top',
+          color: 'success',
+          animated: true
         });
-
-        await alert.present();
-
-        alert.onDidDismiss().then(() => {
+        
+        await toast.present();
+        
+        setTimeout(() => {
           this.router.navigate(['/login']);
-        });
+        }, 2000);
+        
       },
       error: async (err) => {
         console.error(err);
