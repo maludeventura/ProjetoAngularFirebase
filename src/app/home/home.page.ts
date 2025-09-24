@@ -24,6 +24,29 @@ export class HomePage implements OnInit {
     private api: ApiService
   ) { }
 
+
+  // Upload de foto para o post
+  postImageBase64: string = '';
+
+  triggerFileInput() {
+    const fileInput = document.getElementById('fileInput-post') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
+      fileInput.click();
+    }
+  }
+
+  onFileSelected(event: any) {
+    const file: File = event.target.files && event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.postImageBase64 = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+  }
+
   ngOnInit() {
     this.loadCurrentUserId();
     this.loadUser();
@@ -79,10 +102,13 @@ export class HomePage implements OnInit {
   addPost() {
     if (!this.newPost.trim()) return;
 
-    this.postService.createPost(this.newPost).subscribe({
+    this.postService.createPost(this.newPost, this.postImageBase64).subscribe({
       next: (post) => {
         this.posts.unshift(post);
         this.newPost = '';
+        this.postImageBase64 = '';
+        const fileInput = document.getElementById('fileInput-post') as HTMLInputElement;
+        if (fileInput) fileInput.value = '';
       },
       error: (err) => console.error(err)
     });

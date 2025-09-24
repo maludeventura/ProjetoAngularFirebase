@@ -29,9 +29,17 @@
     <h2>Posts Recentes</h2>
 
     <ng-container *ngIf="isLoggedIn()">
+      <div class="new-post-preview" *ngIf="postImageBase64">
+        <img [src]="postImageBase64" alt="Prévia da imagem" class="post-image" />
+      </div>
       <ion-item>
         <ion-input placeholder="Escreva uma postagem..." [(ngModel)]="newPost"></ion-input>
         <ion-button class="buttonPost" (click)="addPost()">Postar</ion-button>
+        <ion-button fill="clear" size="small" (click)="triggerFileInput()" class="camera-btn">
+          <ion-icon name="camera"></ion-icon>
+        </ion-button>
+        <input type="file" accept="image/*" id="fileInput-post" style="display: none;"
+          (change)="onFileSelected($event)" />
       </ion-item>
     </ng-container>
 
@@ -43,30 +51,27 @@
             <img [src]="formatarUrl(post.user?.picture)" alt="Avatar do usuário" />
           </ion-avatar>
 
+
           <ion-label>
             <h3>{{ post.user?.name }}</h3>
+            <ng-container *ngIf="post.picture">
+              <img [src]="formatarUrl(post.picture)" alt="Imagem do post" class="post-image" />
+            </ng-container>
             <p>{{ post.description }}</p>
             <small>{{ post.created_at | date:'short' }}</small>
           </ion-label>
 
-          <ion-button 
-            *ngIf="post.user?.id !== currentUserId"
-            fill="clear" 
-            size="small" 
-            slot="end"
-            class="responder-btn"
+          <ion-button *ngIf="post.user?.id !== currentUserId" fill="clear" size="small" slot="end" class="responder-btn"
             (click)="toggleReply(post.id)">
             Responder
           </ion-button>
 
-          <ion-button 
-            *ngIf="post.user?.id === currentUserId" 
-            fill="clear" 
-            size="small" 
-            slot="end" 
+          <ion-button *ngIf="post.user?.id === currentUserId" fill="clear" size="small" slot="end"
             (click)="deletePost(post.id)">
             <ion-icon name="trash"></ion-icon>
           </ion-button>
+
+
         </ion-item>
 
         <div *ngIf="replyInputs[post.id]" class="input-reply">

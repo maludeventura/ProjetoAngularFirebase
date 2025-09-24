@@ -1,3 +1,13 @@
+img.post-image {
+  display: block;
+  margin: 12px auto 8px auto;
+  max-width: 90%;
+  max-height: 260px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.13);
+  object-fit: contain;
+}
+
 ion-content {
   --background: #ffffff;
   color: #000;
@@ -17,8 +27,8 @@ ion-toolbar {
 }
 
 
-.icon-perfil, 
-.post-avatar, 
+.icon-perfil,
+.post-avatar,
 .reply-avatar {
   width: 40px;
   height: 40px;
@@ -150,7 +160,7 @@ ion-button.buttonPerfil {
   height: 32px;
   object-fit: contain;
   border-radius: 50%;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 }
 
 
@@ -193,7 +203,7 @@ p {
   font-style: italic;
 }
 
-ion-list.replies-list{
+ion-list.replies-list {
   background-color: #f9f9f9 !important;
   --background: #f9f9f9 !important;
   color: #000 !important;
@@ -206,7 +216,7 @@ ion-list.replies-list{
   --padding-end: 6px;
   --padding-top: 2px;
   --padding-bottom: 2px;
-  margin-left: auto; 
+  margin-left: auto;
   color: var(--ion-color-primary);
 }
 
