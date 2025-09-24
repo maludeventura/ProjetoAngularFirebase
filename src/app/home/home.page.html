@@ -11,9 +11,12 @@
         <ion-button class="buttonEntrar" routerLink="/login">Entrar</ion-button>
         <ion-button class="buttonRegistrar" routerLink="/cadastro">Registrar</ion-button>
       </ng-container>
+
       <ng-container *ngIf="isLoggedIn()">
         <ion-button class="buttonPerfil" routerLink="/perfil" fill="clear">
-          <img src="assets/icon/perfil.png" alt="Perfil" class="icon-perfil" />
+          <ion-avatar class="icon-perfil">
+            <img [src]="formatarUrl(user?.picture)" alt="Perfil" />
+          </ion-avatar>
         </ion-button>
         <ion-button class="buttonSair" (click)="logout()">Sair</ion-button>
       </ng-container>
@@ -31,66 +34,67 @@
         <ion-button class="buttonPost" (click)="addPost()">Postar</ion-button>
       </ion-item>
     </ng-container>
-    
-<ion-list *ngIf="posts && posts.length; else noPosts" class="posts-list">
-  <div *ngFor="let post of posts" class="mensagem">
 
-    <ion-item>
-      <ion-avatar slot="start">
-        <img src="assets/icon/perfil.png" alt="Avatar">
-      </ion-avatar>
+    <ion-list *ngIf="posts && posts.length; else noPosts" class="posts-list">
+      <div *ngFor="let post of posts" class="mensagem">
 
-      <ion-label>
-        <h3>{{ post.user?.name }}</h3>
-        <p>{{ post.description }}</p>
-        <small>{{post.created_at | date:'short' }}</small>
-      </ion-label>
+        <ion-item>
+          <ion-avatar slot="start" class="post-avatar">
+            <img [src]="formatarUrl(post.user?.picture)" alt="Avatar do usuário" />
+          </ion-avatar>
 
-      <ion-button 
-        *ngIf="post.user?.id !== currentUserId"
-        fill="clear" 
-        size="small" 
-        slot="end"
-        class="responder-btn"
-        (click)="toggleReply(post.id)">
-        Responder
-      </ion-button>
+          <ion-label>
+            <h3>{{ post.user?.name }}</h3>
+            <p>{{ post.description }}</p>
+            <small>{{ post.created_at | date:'short' }}</small>
+          </ion-label>
 
-      <ion-button 
-  *ngIf="post.user?.id === currentUserId" 
-  fill="clear" 
-  size="small" 
-  slot="end" 
-  (click)="deletePost(post.id)">
-  <ion-icon name="trash"></ion-icon>
-</ion-button>
+          <ion-button 
+            *ngIf="post.user?.id !== currentUserId"
+            fill="clear" 
+            size="small" 
+            slot="end"
+            class="responder-btn"
+            (click)="toggleReply(post.id)">
+            Responder
+          </ion-button>
 
-    </ion-item>
+          <ion-button 
+            *ngIf="post.user?.id === currentUserId" 
+            fill="clear" 
+            size="small" 
+            slot="end" 
+            (click)="deletePost(post.id)">
+            <ion-icon name="trash"></ion-icon>
+          </ion-button>
+        </ion-item>
 
-    <div *ngIf="replyInputs[post.id]" class="input-reply">
-      <ion-item>
-        <ion-input [(ngModel)]="replyTexts[post.id]" placeholder="Digite sua resposta..."></ion-input>
-        <ion-button size="small" (click)="addReply(post)">Enviar</ion-button>
-      </ion-item>
-    </div>
+        <div *ngIf="replyInputs[post.id]" class="input-reply">
+          <ion-item>
+            <ion-input [(ngModel)]="replyTexts[post.id]" placeholder="Digite sua resposta..."></ion-input>
+            <ion-button size="small" (click)="addReply(post)">Enviar</ion-button>
+          </ion-item>
+        </div>
 
-    <ion-list *ngIf="post.replies?.length" class="replies-list">
-      <ion-item *ngFor="let reply of post.replies" class="resposta">
-        <ion-avatar slot="start">
-          <img src="assets/icon/perfil.png" alt="Avatar">
-        </ion-avatar>
-        <ion-label>
-          <h4>{{ reply.user?.name }}</h4>
-          <p>{{ reply.description }}</p>
-          <small>{{ reply.created_at | date:'short' }}</small>
-        </ion-label>
-      </ion-item>
+        <ion-list *ngIf="post.replies?.length" class="replies-list">
+          <ion-item *ngFor="let reply of post.replies" class="resposta">
+            <ion-avatar slot="start" class="reply-avatar">
+              <img [src]="formatarUrl(reply.user?.picture)" alt="Avatar da resposta" />
+            </ion-avatar>
+            <ion-label>
+              <h4>{{ reply.user?.name }}</h4>
+              <p>{{ reply.description }}</p>
+              <small>{{ reply.created_at | date:'short' }}</small>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+
+      </div>
     </ion-list>
 
-  </div>
-</ion-list>
     <ng-template #noPosts>
       <p>Nenhum post encontrado.</p>
     </ng-template>
+
   </div>
 </ion-content>

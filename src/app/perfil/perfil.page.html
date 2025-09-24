@@ -10,11 +10,14 @@
 <ion-content [fullscreen]="true" class="ion-padding">
   <div class="perfil-container" *ngIf="user">
     <div class="perfil-header">
-      <img [src]="user?.picture || 'assets/icon/perfil-outline.svg'" 
-      alt="Avatar" 
-      class="perfil-avatar" />
- 
-      <input type="file" class="ad_arquivo" (change)="uploadFotoPerfil($event)" accept="image/*" />
+        <img [src]="formatarUrl(user?.picture)"
+        alt="Imagem de perfil"
+        class="perfil-avatar"
+        (error)="onImageError($event)">
+        <div class="button-container">
+          <input type="file" id="fotoPerfil" (change)="uploadFotoPerfil($event)" accept="image/*" hidden>
+          <label for="fotoPerfil" class="botao-foto">Adicionar sua Foto de Perfil</label>
+        </div>
 
       <ion-button expand="block" class="buttonEditarPerfil" (click)="modoEdicao = !modoEdicao">
         {{ modoEdicao ? 'Cancelar Edição' : 'Editar Perfil' }}
@@ -51,14 +54,12 @@
       <ion-item *ngFor="let post of posts">
         <ion-label>
           <p class="text">{{ post.description }}</p>
-          <small>{{post.created_at | date:'short' }}</small>
+          <small>{{ post.created_at | date: 'short' }}</small>
         </ion-label>
 
-        <!-- Imagem do post, se houver -->
-        <img *ngIf="post.picture" [src]="post.picture" alt="Imagem do post"
-          style="max-width: 80px; max-height: 80px; margin-left: 10px; border-radius: 8px;">
+        <img *ngIf="post.picture" [src]="formatarUrl(post.picture)" alt="Imagem do post"
+             style="max-width: 80px; max-height: 80px; margin-left: 10px; border-radius: 8px;">
 
-        <!-- Botão de deletar post -->
         <ion-button fill="clear" color="danger" (click)="deletarPost(post.id)">
           <ion-icon name="trash-outline"></ion-icon>
         </ion-button>

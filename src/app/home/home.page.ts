@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PostService } from '../services/post.service';
+import { ApiService } from '../shared/api.service';
 
 @Component({
   selector: 'app-home',
@@ -11,22 +12,50 @@ export class HomePage implements OnInit {
   posts: any[] = [];
   newPost: string = '';
   currentUserId: number | null = null;
+  user: any = null;   // 👈 guarda os dados do usuário logado
 
   // controle das respostas
-  replyInputs: { [key: number]: boolean } = {}; 
-  replyTexts: { [key: number]: string } = {};  
+  replyInputs: { [key: number]: boolean } = {};
+  replyTexts: { [key: number]: string } = {};
 
-  constructor(private postService: PostService, private router: Router) {}
+  constructor(
+    private postService: PostService,
+    private router: Router,
+    private api: ApiService
+  ) { }
 
   ngOnInit() {
     this.loadCurrentUserId();
+    this.loadUser();
     this.loadPosts();
   }
 
   loadCurrentUserId() {
     const storedId = localStorage.getItem('userId');
     this.currentUserId = storedId ? Number(storedId) : null;
-    console.log('currentUserId:', this.currentUserId);  // Debug no console
+    console.log('currentUserId:', this.currentUserId);
+  }
+
+  loadUser() {
+    if (!this.isLoggedIn()) return;
+    this.api.post('usuario/perfil', {}).subscribe({
+      next: (resp: any) => {
+        this.user = resp;
+      },
+      error: (err) => {
+        console.error('Erro ao carregar usuário na home', err);
+      }
+    });
+  }
+
+  formatarUrl(url: string | undefined | null): string {
+    if (!url || url.trim() === '' || url.toLowerCase() === 'null') {
+      return 'assets/icon/meu-perfil.png'; // fallback padrão
+    }
+    if (url.startsWith('http')) {
+      return url;
+    }
+    return `http://localhost:8000${url}`;
   }
 
   isLoggedIn(): boolean {
@@ -35,7 +64,7 @@ export class HomePage implements OnInit {
 
   logout() {
     localStorage.removeItem('token');
-    localStorage.removeItem('userId');  // Também remover userId no logout
+    localStorage.removeItem('userId');
     this.router.navigate(['/home']);
     setTimeout(() => this.loadPosts(), 300);
   }
@@ -67,12 +96,16 @@ export class HomePage implements OnInit {
     const replyText = this.replyTexts[post.id];
     if (!replyText?.trim()) return;
 
+
     if (!post.replies) {
       post.replies = [];
     }
 
     post.replies.push({
-      user: { name: "Você" },
+      user: {
+        name: this.user?.name || "Você",
+        picture: this.user?.picture || null
+      },
       description: replyText,
       created_at: new Date()
     });
@@ -85,7 +118,6 @@ export class HomePage implements OnInit {
     if (confirm('Tem certeza que deseja excluir este post?')) {
       this.postService.deletePost(postId).subscribe({
         next: () => {
-          // Remove o post da lista local
           this.posts = this.posts.filter(post => post.id !== postId);
         },
         error: (err) => console.error('Erro ao excluir o post', err)

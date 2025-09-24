@@ -4,6 +4,11 @@
   font-family: 'Roboto', sans-serif;
 }
 
+ion-toolbar {
+  --background: #0a1a40;
+  color: #fff;
+}
+
 .login-wrapper {
   display: flex;
   justify-content: center;

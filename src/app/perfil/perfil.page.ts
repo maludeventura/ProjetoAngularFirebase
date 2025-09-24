@@ -41,6 +41,7 @@ export class PerfilPage implements OnInit {
         console.error('Erro ao carregar perfil:', err);
         this.router.navigate(['/login']);
       }
+      
     });
   }
 
@@ -83,25 +84,34 @@ export class PerfilPage implements OnInit {
   }
 
   // Upload da foto de perfil
+// Upload da foto de perfil
+uploadFotoPerfil(event: any) {
+  const file = event.target.files[0];
+  if (file) {
+    this.postService.uploadFotoPerfil(file).subscribe({
+      next: (res: any) => {
+        console.log('Foto enviada com sucesso', res);
+        this.user.picture = res.picture_url;
 
-  uploadFotoPerfil(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      this.user.picture = URL.createObjectURL(file);
-
-      this.postService.uploadFotoPerfil(file).subscribe({
-        next: (res: any) => {
-          console.log('Foto enviada com sucesso', res);
-          this.user.picture = res.picture_url; 
-        },
-        error: (err: any) => {
-          console.error('Erro ao enviar foto', err);
-        }
-      });
-    }
+        // 👇 Atualiza o perfil no backend com a nova foto
+        this.api.post('usuario/editar', {
+          picture: res.picture_url
+        }).subscribe({
+          next: () => {
+            console.log('Foto de perfil salva no banco.');
+          },
+          error: (err: HttpErrorResponse) => {
+            console.error('Erro ao salvar foto no banco', err);
+          }
+        });
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error('Erro ao enviar foto', err);
+        alert('Erro ao enviar a foto: ' + (err.error?.message || 'Verifique o formato e tamanho.'));
+      }
+    });
   }
-  
-
+}
 
   // Deletar post
   deletarPost(postId: number) {
@@ -118,4 +128,22 @@ export class PerfilPage implements OnInit {
       }
     });
   }
+
+  // Formata a URL da imagem, ou retorna imagem padrão
+formatarUrl(url: string | undefined | null): string {
+  if (!url || url.trim() === '' || url === 'null') {
+    return 'assets/icon/perfil.png'; // 👈 imagem padrão
+  }
+
+  if (url.startsWith('http')) {
+    return url;
+  }
+
+  return `http://localhost:8000${url}`;
+}
+
+onImageError(event: any) {
+  event.target.src = 'assets/icon/perfil.png';
+}
+
 }

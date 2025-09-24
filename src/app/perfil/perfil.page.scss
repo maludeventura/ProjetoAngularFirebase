@@ -41,36 +41,30 @@ h2, .perfil-header h2 {
 }
 
 
-.ad_arquivo::-webkit-file-upload-button {
-  visibility: hidden; 
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin: 12px 0;
 }
 
-.ad_arquivo::before {
-  content: 'Adicionar Foto'; 
-  display: inline-block;
+.botao-foto {
   background: #0a1a40;
   color: white;
-  border-radius: 12px;
   padding: 10px 20px;
+  border-radius: 12px;
   font-weight: bold;
   cursor: pointer;
-  text-align: center;
   box-shadow: 0 4px 6px rgba(0,0,0,0.2);
   transition: background 0.3s, transform 0.2s;
+  display: inline-block;
+  text-align: center;
 }
 
-
-.ad_arquivo::before:hover {
+.botao-foto:hover {
   background: #091534;
   transform: translateY(-2px);
 }
 
-.perfil-header .ad_arquivo {
-  display: block;
-  margin: 12px auto;
-  width: auto;
-  align-items: center;
-}
 
 
 p {
@@ -156,6 +150,7 @@ ion-toolbar {
 ion-title {
   color: #ffffff;
 }
+
 
 ion-back-button {
   --color: #ffffff;

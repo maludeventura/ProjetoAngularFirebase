@@ -42,10 +42,12 @@ export class PostService {
   // 👉 Novo: Upload de foto de perfil
   uploadFotoPerfil(file: File): Observable<any> {
     const formData = new FormData();
-    formData.append('foto', file);
+formData.append('picture', file); // nome correto compatível com o Laravel
 
-    return this.http.post(`${this.apiUrl}/upload-foto`, formData, {
-      headers: this.getHeaders()
-    });
+
+return this.http.post(`${this.apiUrl}/foto-upload`, formData, {
+  headers: this.getHeaders()
+});
+
   }
 }
