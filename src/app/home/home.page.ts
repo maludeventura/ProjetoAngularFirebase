@@ -1,3 +1,5 @@
+// ...existing code...
+// ...existing code...
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PostService } from '../services/post.service';
@@ -13,7 +15,7 @@ export class HomePage implements OnInit {
   posts: any[] = [];
   newPost: string = '';
   currentUserId: number | null = null;
-  user: any = null; 
+  user: any = null;
 
   replyInputs: { [key: number]: boolean } = {};
   replyTexts: { [key: number]: string } = {};
@@ -178,5 +180,18 @@ export class HomePage implements OnInit {
       position: 'bottom'
     });
     toast.present();
+  }
+
+  toggleLike(post: any) {
+    if (!post.likes_count) post.likes_count = 0;
+    if (post.liked) {
+      post.likes_count--;
+      post.liked = false;
+    } else {
+      post.likes_count++;
+      post.liked = true;
+    }
+    // Aqui você pode chamar o serviço para salvar no backend se desejar
+    // this.postService.likePost(post.id, post.liked).subscribe();
   }
 }

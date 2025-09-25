@@ -49,8 +49,13 @@ ion-toolbar {
 
 .login-logo {
   width: 80px;
+  height: 80px; 
   margin-bottom: 10px;
+  border-radius: 50%; 
+  object-fit: cover; 
+  border: 2px solid #001f3f; 
 }
+
 
 ion-card-title {
   font-size: 1.4rem;

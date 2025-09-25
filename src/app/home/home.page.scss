@@ -1,3 +1,54 @@
+// Curtidas na home
+.like-row-home {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  gap: 6px;
+}
+
+.like-btn-home {
+  --padding-start: 0;
+  --padding-end: 0;
+  --background: transparent;
+  --box-shadow: none;
+  min-width: 32px;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+}
+
+.like-count-home {
+  font-size: 15px;
+  color: #e25555;
+  margin-left: 2px;
+  font-weight: 500;
+}
+
+// Curtidas
+.like-row {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  gap: 6px;
+}
+
+.like-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.like-count {
+  font-size: 14px;
+  color: #aaa;
+  margin-left: 2px;
+}
+
 img.post-image {
   display: block;
   margin: 12px auto 8px auto;
@@ -214,14 +265,19 @@ ion-list.replies-list {
 }
 
 .responder-btn {
-  font-size: 12px;
-  --padding-start: 6px;
-  --padding-end: 6px;
-  --padding-top: 2px;
-  --padding-bottom: 2px;
-  margin-left: auto;
-  color: var(--ion-color-primary);
+  --background: transparent !important;
+  --box-shadow: none !important;
+  --color: #000 !important;
+  /* preto */
+  padding: 0;
+  margin: 0;
+
+  ion-icon {
+    font-size: 20px;
+    color: #000;
+  }
 }
+
 
 
 @media (max-width: 700px) {

@@ -51,19 +51,19 @@
             <img [src]="formatarUrl(post.user?.picture)" alt="Avatar do usuário" />
           </ion-avatar>
 
-
           <ion-label>
             <h3>{{ post.user?.name }}</h3>
             <ng-container *ngIf="post.picture">
               <img [src]="formatarUrl(post.picture)" alt="Imagem do post" class="post-image" />
             </ng-container>
             <p>{{ post.description }}</p>
+
             <small>{{ post.created_at | date:'short' }}</small>
           </ion-label>
 
           <ion-button *ngIf="post.user?.id !== currentUserId" fill="clear" size="small" slot="end" class="responder-btn"
             (click)="toggleReply(post.id)">
-            Responder
+            <ion-icon name="chatbubble-outline"></ion-icon>
           </ion-button>
 
           <ion-button *ngIf="post.user?.id === currentUserId" fill="clear" size="small" slot="end"
@@ -71,8 +71,15 @@
             <ion-icon name="trash"></ion-icon>
           </ion-button>
 
-
         </ion-item>
+
+        <div class="like-row-home">
+          <ion-button fill="clear" size="small" class="like-btn-home" (click)="toggleLike(post)">
+            <ion-icon [name]="post.liked ? 'heart' : 'heart-outline'"
+              [color]="post.liked ? 'danger' : 'medium'"></ion-icon>
+          </ion-button>
+          <span class="like-count-home">{{ post.likes_count || 0 }}</span>
+        </div>
 
         <div *ngIf="replyInputs[post.id]" class="input-reply">
           <ion-item>

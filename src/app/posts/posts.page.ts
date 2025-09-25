@@ -10,7 +10,10 @@ export class PostsPage implements OnInit {
   posts: any[] = [];
   newPost: string = '';
 
-  constructor(private postService: PostService) {}
+  // Simula usuário logado (ajuste conforme seu auth)
+  userId: number = 1;
+
+  constructor(private postService: PostService) { }
 
   ngOnInit() {
     this.loadPosts();
@@ -33,5 +36,18 @@ export class PostsPage implements OnInit {
       },
       error: (err) => console.error(err)
     });
+  }
+
+  toggleLike(post: any) {
+    if (!post.likes) post.likes = 0;
+    if (post.liked) {
+      post.likes--;
+      post.liked = false;
+    } else {
+      post.likes++;
+      post.liked = true;
+    }
+    // Aqui você pode chamar o serviço para salvar no backend se desejar
+    // this.postService.likePost(post.id, post.liked).subscribe();
   }
 }

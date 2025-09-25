@@ -16,6 +16,13 @@
         <h2>{{ post.user?.name }}</h2>
         <p>{{ post.description }}</p>
         <small>{{ post.created_at | date:'short' }}</small>
+        <div class="like-row">
+          <button class="like-btn" (click)="toggleLike(post)">
+            <img [src]="post.liked ? 'assets/icon/heart-filled.svg' : 'assets/icon/heart-outline.svg'" width="20"
+              height="20" />
+          </button>
+          <span class="like-count">{{ post.likes || 0 }}</span>
+        </div>
       </ion-label>
     </ion-item>
   </ion-list>
